@@ -50,11 +50,7 @@ Create chart name and version as used by the chart label.
 Encode an imagePullSecret string.
 */}}
 {{- define "kubernetes-ingress.imagePullSecret" -}}
-{{- if and .Values.imageCredentials.registry .Values.imageCredentials.username .Values.imageCredentials.password -}}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.controller.imageCredentials.registry (printf "%s:%s" .Values.controller.imageCredentials.username .Values.controller.imageCredentials.password | b64enc) | b64enc -}}
-{{- else if .Values.controller.imagePullSecret -}}
-{{- .Values.controller.imagePullSecret -}}
-{{- end -}}
 {{- end -}}
 
 {{/*
