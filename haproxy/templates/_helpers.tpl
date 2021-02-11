@@ -81,7 +81,10 @@ Create the name of the service account to use
 Encode an imagePullSecret string.
 */}}
 {{- define "haproxy.imagePullSecret" }}
+{{- if and .Values.imageCredentials.registry .Values.imageCredentials.username .Values.imageCredentials.password }}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.imageCredentials.registry (printf "%s:%s" .Values.imageCredentials.username .Values.imageCredentials.password | b64enc) | b64enc }}
+{{- else if .Values.imagePullSecret }}
+{{- .Values.imagePullSecret }}
 {{- end }}
 
 {{/* vim: set filetype=mustache: */}}
